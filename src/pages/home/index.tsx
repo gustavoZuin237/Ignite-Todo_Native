@@ -5,12 +5,19 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  Image,
 } from 'react-native'
 
 import { styles } from './styles'
 import { colors } from '../../../styles/global'
 
+import { PlusCircle } from 'phosphor-react'
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import Clipboard from '../../../assets/clipboard.svg'
+
 import { Header } from '../../components/header'
+import { NumberPill } from '../../components/numberPill'
 
 export function Home() {
   return (
@@ -28,7 +35,7 @@ export function Home() {
           />
 
           <TouchableOpacity style={styles.button} activeOpacity={0.8}>
-            +
+            <PlusCircle size={16} />
           </TouchableOpacity>
         </View>
 
@@ -38,11 +45,13 @@ export function Home() {
               <Text style={{ color: colors.blue, fontWeight: '700' }}>
                 Criadas
               </Text>
+              <NumberPill value="0" />
             </View>
             <View style={styles.listHeaderItem}>
               <Text style={{ color: colors.purple, fontWeight: '700' }}>
                 Concluídas
               </Text>
+              <NumberPill value="0" />
             </View>
           </View>
           <View style={styles.listContainer}>
@@ -50,10 +59,21 @@ export function Home() {
               data={[]}
               renderItem={() => null}
               ListEmptyComponent={
-                <Text>
-                  Você ainda não tem tarefas cadastradas Crie tarefas e organize
-                  seus itens a fazer
-                </Text>
+                <View style={styles.emptyListContainer}>
+                  <Image
+                    source={Clipboard}
+                    style={styles.emptyListImage}
+                    width={56}
+                    height={56}
+                    alt=""
+                  />
+
+                  <Text style={styles.emptyListText}>
+                    <strong>Você ainda não tem tarefas cadastradas</strong>{' '}
+                    <br />
+                    Crie tarefas e organize seus itens a fazer
+                  </Text>
+                </View>
               }
             ></FlatList>
           </View>

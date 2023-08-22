@@ -66,7 +66,20 @@ export const styles = StyleSheet.create({
   },
 
   emptyListContainer: {
-    
+    marginTop: 48,
+    gap: 16,
+    alignItems: 'center',
+  },
+
+  emptyListImage: {
+    width: 56,
+    height: 56,
+  },
+
+  emptyListText: {
+    color: colors.gray300,
+    fontSize: 14,
+    textAlign: 'center',
   },
 
   listBody: {
