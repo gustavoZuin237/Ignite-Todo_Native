@@ -18,8 +18,25 @@ import Clipboard from '../../../assets/clipboard.svg'
 
 import { Header } from '../../components/header'
 import { NumberPill } from '../../components/numberPill'
+import { TaskItem } from '../../components/taskItem'
+import { useState } from 'react'
 
 export function Home() {
+  const [task, setTask] = useState('')
+  const [tasks, setTasks] = useState<string[]>([])
+  const [completedTasks, setCompletedTasks] = useState(0)
+
+  function handleAddTask() {
+    setTasks([...tasks, task])
+    setTask('')
+  }
+
+  function handleDeleteTask(desc: string) {
+    const filteredTasks = tasks.filter((task) => task !== desc)
+
+    setTasks(filteredTasks)
+  }
+
   return (
     <View style={styles.container}>
       <View>
@@ -32,9 +49,15 @@ export function Home() {
             style={styles.input}
             placeholder="Adicione uma nova tarefa"
             placeholderTextColor={colors.gray300}
+            onChangeText={setTask}
+            value={task}
           />
 
-          <TouchableOpacity style={styles.button} activeOpacity={0.8}>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.6}
+            onPress={handleAddTask}
+          >
             <PlusCircle size={16} />
           </TouchableOpacity>
         </View>
@@ -45,19 +68,28 @@ export function Home() {
               <Text style={{ color: colors.blue, fontWeight: '700' }}>
                 Criadas
               </Text>
-              <NumberPill value="0" />
+              <NumberPill value={`${tasks.length}`} />
             </View>
             <View style={styles.listHeaderItem}>
               <Text style={{ color: colors.purple, fontWeight: '700' }}>
                 Concluídas
               </Text>
-              <NumberPill value="0" />
+              <NumberPill value={`${completedTasks}`} />
             </View>
           </View>
           <View style={styles.listContainer}>
             <FlatList
-              data={[]}
-              renderItem={() => null}
+              data={tasks}
+              keyExtractor={(task) => task}
+              renderItem={(task) => (
+                <TaskItem
+                  key={task.index}
+                  description={task.item}
+                  deleteTask={handleDeleteTask}
+                  completedTasks={completedTasks}
+                  setCompletedTasks={setCompletedTasks}
+                />
+              )}
               ListEmptyComponent={
                 <View style={styles.emptyListContainer}>
                   <Image
